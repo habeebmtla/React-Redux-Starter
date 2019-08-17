@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {store} from '../../stores'
 import {connect} from 'react-redux'
 import {getApi} from '../../actions/AppActionCreators'
+import Loader from '../Loader';
 
 class Home extends Component {
 
@@ -14,6 +15,7 @@ class Home extends Component {
     console.log(users)
     return (
       <div className="container" >
+        { users.loading && <Loader />}
         <h1>Hi I am starter react Redux</h1>
       </div>
     );
