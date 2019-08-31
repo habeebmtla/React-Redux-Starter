@@ -11,11 +11,11 @@ class Home extends Component {
   }
 
   render() {
-    let {users} = this.props.sample
+    let {users,loading} = this.props.sample
     console.log(users)
     return (
       <div className="container" >
-        { users.loading && <Loader />}
+        { loading && <Loader />}
         <h1>Hi I am starter react Redux</h1>
       </div>
     );
