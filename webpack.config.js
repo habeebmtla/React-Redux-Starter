@@ -1,46 +1,42 @@
-const webpack = require("webpack");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
-const config = {
-  mode: "production",
-  entry: path.resolve(__dirname, "app/App.js"),
-  output: {
-    path: path.resolve(__dirname, "public/js/"),
-    publicPath: "/js/",
-    filename: "bundle.js"
-  },
-  module: {
-    rules: [
-      {
-        test: /.jsx?$/,
-        exclude: [path.resolve(__dirname, "node_modules")],
-        loader: "babel-loader",
-        query: {
-          presets: ["env", "react", "stage-0"]
-        }
-      },
-      {
-            test: /\.scss$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
-        },
-        {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
+module.exports = {
+    entry: path.resolve(__dirname, "app/App.js"),
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    }
+                ]
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    // Creates `style` nodes from JS strings
+                    'style-loader',
+                    // Translates CSS into CommonJS
+                    'css-loader',
+                    // Compiles Sass to CSS
+                    'sass-loader',
+                ],
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: "./public/index.html",
+            filename: "./index.html"
+        })
     ]
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, "public"),
-    historyApiFallback: true,
-    compress: true,
-    open: true
-  }
 };
-
-module.exports = config;
